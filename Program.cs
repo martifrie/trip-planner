@@ -1,27 +1,48 @@
-using TripPlanner.Components;
+using Microsoft.EntityFrameworkCore;
+using TripPlanner.Data;
+using TripPlanner.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+// Add services to the container
+builder.Services.AddControllers();
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Scoped DbContext, one instance per HTTP request
+builder.Services.AddDbContext<TripPlannerDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("TripPlanner")));
+
+builder.Services.AddSingleton<PackingSuggestionService>();
+
+// CORS policy allowing the React dev server to call this API.
+// TODO: restrict origin to your actual deployed frontend URL before going to production.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+
 app.UseHttpsRedirection();
-
-app.UseAntiforgery();
-
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.UseCors("AllowReactApp"); // must come before MapControllers
+app.MapControllers();
 
 app.Run();
