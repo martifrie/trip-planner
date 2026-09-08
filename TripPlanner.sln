@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripPlanner", "TripPlanner.csproj", "{3FFA1C55-5CE2-4B4B-9015-A6571A125DBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FFA1C55-5CE2-4B4B-9015-A6571A125DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFA1C55-5CE2-4B4B-9015-A6571A125DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFA1C55-5CE2-4B4B-9015-A6571A125DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFA1C55-5CE2-4B4B-9015-A6571A125DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
